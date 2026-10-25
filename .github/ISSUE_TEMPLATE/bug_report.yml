@@ -1,0 +1,31 @@
+name: Bug report
+description: Something doesn't work (crash, sign-in fails, settings not saved…).
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, what happened instead.
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Phone and Android version
+      placeholder: Pixel 8, Android 16
+    validations:
+      required: true
+  - type: input
+    id: browsers
+    attributes:
+      label: Browser 1 and Browser 2
+      placeholder: Firefox / Chrome
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Wyelink version
+      description: Shown at the bottom of the Wyelink screen.
+      placeholder: "1.1"

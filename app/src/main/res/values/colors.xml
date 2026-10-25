@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg">#F5F6FB</color>
+    <color name="card">#FFFFFF</color>
+    <color name="stroke">#E4E6F0</color>
+    <color name="field">#F2F3F9</color>
+    <color name="text">#15172B</color>
+    <color name="muted">#5D627E</color>
+    <color name="accent">#4F46E5</color>
+    <color name="ok">#0F8F6B</color>
+    <color name="warn">#C2410C</color>
+
+    <!-- Icon palette (same in both themes) -->
+    <color name="icon_bg_start">#4338CA</color>
+    <color name="icon_bg_end">#0D9488</color>
+    <color name="icon_amber">#FBBF24</color>
+</resources>

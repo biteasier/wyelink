@@ -1,0 +1,12 @@
+Wyelink
+Copyright (c) 2026 biteasier. Licensed under the MIT License (see LICENSE).
+
+This project includes a copy of the Custom Tabs service interface from AndroidX:
+
+  app/src/main/aidl/android/support/customtabs/ICustomTabsService.aidl
+  Copyright (C) 2015 The Android Open Source Project
+  Licensed under the Apache License, Version 2.0
+  https://www.apache.org/licenses/LICENSE-2.0
+
+The file was adapted: callback parameters are declared as IBinder. The interface
+descriptor and transaction ids are unchanged.

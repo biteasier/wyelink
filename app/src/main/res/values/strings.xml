@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Wyelink</string>
+    <string name="tagline">One link in. The right browser out.</string>
+    <string name="open_with">Open with</string>
+    <string name="share_to_browser1">Open in Browser 1</string>
+    <string name="share_to_browser2">Open in Browser 2</string>
+    <string name="ask_every_time">Ask every time</string>
+
+    <string name="status_on">✓ Wyelink is your default browser</string>
+    <string name="status_off">Wyelink is not your default browser yet</string>
+    <string name="status_desc">Links reach Wyelink only when it is the default browser. It opens nothing itself: it hands each link to Browser 1 or Browser 2 in a few milliseconds.</string>
+    <string name="make_default">Make default</string>
+    <string name="change_default">Default apps</string>
+
+    <string name="section_browsers">Browsers</string>
+    <string name="browser1">Browser 1 · sign-ins &amp; your picks</string>
+    <string name="browser1_desc">Login, OAuth, verify and confirm links, plus anything in “Always Browser 1”.</string>
+    <string name="browser2">Browser 2 · everything else</string>
+    <string name="browser2_desc">Every other link.</string>
+
+    <string name="section_smart">Smart routing</string>
+    <string name="smart">Detect sign-in &amp; confirmation links</string>
+    <string name="smart_desc">Scores each link: sign-in providers (Google, Microsoft, Apple, Okta, Auth0…), login, OAuth, verify and confirm pages, magic-link and reset tokens. Sees through Outlook Safe Links, Proofpoint, Google and Facebook redirects. Works offline.</string>
+    <string name="custom_tabs">Treat in-app browser tabs as sign-ins</string>
+    <string name="custom_tabs_desc">Apps open their login screens as “Custom Tabs”. Turn on to send every in-app tab to Browser 1 (some apps use tabs for ordinary links too).</string>
+    <string name="toast">Show which browser opened each link</string>
+
+    <string name="section_rules">Rules</string>
+    <string name="rules1">Always Browser 1</string>
+    <string name="rules2">Always Browser 2</string>
+    <string name="rules1_hint">mybank.com\napp:com.slack</string>
+    <string name="rules2_hint">docs.google.com\nhas:unsubscribe</string>
+    <string name="rules_help">One rule per line. Rules beat smart routing.\nexample.com        domain + subdomains\nexample.com/login  domain + path\napp:com.slack      links opened from an app\nhas:invoice        URL contains text\nre:^https://.*\\.gov/  regular expression\n# comment</string>
+
+    <string name="section_test">Try a link</string>
+    <string name="test_hint">Paste a URL to see where it goes</string>
+    <string name="test_empty">Result shows here.</string>
+    <string name="test_result">→ Browser %1$d (%2$s)\n%3$s</string>
+
+    <string name="section_recent">Recent links</string>
+    <string name="history">Keep recent links</string>
+    <string name="history_desc">Off by default. Stores only the site and path of the last 15 links, never the part after “?” where tokens live. Stays on this phone.</string>
+    <string name="recent_empty">Nothing routed yet. Tip: copy a package name from here into an app: rule.</string>
+    <string name="recent_off">History is off.</string>
+    <string name="clear">Clear</string>
+    <string name="version">Wyelink %1$s · no permissions, no internet, no backups\nWrong browser? Share the page to “Open in Browser 1” or “Open in Browser 2”.</string>
+</resources>

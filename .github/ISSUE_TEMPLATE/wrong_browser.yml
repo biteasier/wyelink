@@ -1,0 +1,35 @@
+name: Link opened in the wrong browser
+description: A sign-in link went to Browser 2, or an ordinary link went to Browser 1.
+labels: [detection]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks! This is how detection gets better.
+        **Remove tokens first.** Replace anything after `?` that looks like a code or token with `xxx`.
+  - type: input
+    id: url
+    attributes:
+      label: Link (tokens removed)
+      placeholder: https://example.com/verify-email?token=xxx
+    validations:
+      required: true
+  - type: dropdown
+    id: expected
+    attributes:
+      label: Where should it have gone?
+      options:
+        - Browser 1 (it is a sign-in / verification link)
+        - Browser 2 (it is an ordinary link)
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: App the link came from
+      placeholder: Gmail, Slack, com.example.app…
+  - type: input
+    id: reason
+    attributes:
+      label: Reason shown by Wyelink
+      description: From "Try a link" or Recent links, e.g. "default" or "sign-in: /login".
