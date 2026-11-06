@@ -17,7 +17,15 @@ dist/
 # Signing keys never belong in the repo
 *.jks
 *.keystore
+*.p12
+*.pem
+*.key
 keystore.properties
+.env
+.env.*
+
+# Local demo videos and recordings
+demo/
 
 # OS
 .DS_Store

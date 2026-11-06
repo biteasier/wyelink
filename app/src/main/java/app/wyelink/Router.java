@@ -146,14 +146,24 @@ final class Router {
         return decide(c, url, sourcePkg, customTab, false);
     }
 
-    /** scheme://host/path with query and fragment dropped, so stored history never holds tokens. */
+    /** scheme://host/path with query, fragment and token-like path parts dropped, for stored history. */
     static String redact(String url) {
         Url u = Url.parse(url);
         String raw = u.raw;
         int s = raw.indexOf("://");
         String scheme = s > 0 ? raw.substring(0, s).toLowerCase(Locale.ROOT) + "://" : "";
-        String path = u.path.length() > 48 ? u.path.substring(0, 48) + "…" : u.path;
+        String masked = maskTokens(u.path);
+        String path = masked.length() > 48 ? masked.substring(0, 48) + "…" : masked;
         return scheme + u.host + path;
+    }
+
+    /** Magic links can carry their token in the path: hide long parts that contain a digit. */
+    private static String maskTokens(String path) {
+        String[] parts = path.split("/", -1);
+        for (int i = 0; i < parts.length; i++) {
+            if (parts[i].length() >= 16 && parts[i].matches(".*\\d.*")) parts[i] = "…";
+        }
+        return String.join("/", parts);
     }
 
     // ---- user rules ----
@@ -391,7 +401,7 @@ final class Router {
 
         static Url parse(String url) {
             String raw = url == null ? "" : url.trim();
-            String full = raw.toLowerCase(Locale.ROOT);
+            String full = browserForm(raw).toLowerCase(Locale.ROOT);
             int s = full.indexOf("://");
             String rest = s >= 0 ? full.substring(s + 3) : full;
 
@@ -419,6 +429,23 @@ final class Router {
             String path = q >= 0 ? tail.substring(0, q) : tail;
             String query = q >= 0 ? tail.substring(q + 1) : "";
             return new Url(raw, full, host, path, query);
+        }
+
+        /**
+         * Reads a link the way browsers do: tabs and newlines vanish, and "\\" before the query means "/".
+         * Without this, https://evil.example\\@github.com looks like github.com but opens evil.example.
+         */
+        private static String browserForm(String raw) {
+            String s = raw.replace("\t", "").replace("\n", "").replace("\r", "");
+            int end = s.length();
+            for (int i = 0; i < s.length(); i++) {
+                char ch = s.charAt(i);
+                if (ch == '?' || ch == '#') {
+                    end = i;
+                    break;
+                }
+            }
+            return s.substring(0, end).replace('\\', '/') + s.substring(end);
         }
     }
 }

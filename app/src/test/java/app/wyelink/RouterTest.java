@@ -153,6 +153,31 @@ public class RouterTest {
     }
 
     @Test
+    public void lookalikeLinksCantReachBrowser1() {
+        Router.Config c = new Router.Config();
+        c.smartAuth = false;
+        c.rules1 = "github.com";
+        assertEquals(1, route(c, "https://github.com/settings"));
+        // Browsers read "\\" as "/", so the real site here is evil.example.
+        assertEquals(2, route(c, "https://evil.example\\@github.com/"));
+        assertEquals(2, route(c, "https://evil.example\\.github.com/"));
+        assertEquals(2, route("https://evil.example\\@accounts.google.com/"));
+        assertEquals(2, route(c, "https://github.com@evil.example/"));
+        assertEquals(2, route(c, "https://github.com.evil.example/"));
+        assertEquals(1, route(c, "https://git\thub.com/"));
+        assertEquals("evil.example", Router.Url.parse("https://evil.example\\@github.com/").host);
+        assertEquals("q=a\\b", Router.Url.parse("https://example.com/p?q=a\\b").query);
+    }
+
+    @Test
+    public void historyHidesTokensInPaths() {
+        assertEquals("https://example.com/magic-link/…",
+                Router.redact("https://example.com/magic-link/8f3a9c2e7b1d4f60a5c3"));
+        assertEquals("https://example.com/verify-email-address-page",
+                Router.redact("https://example.com/verify-email-address-page"));
+    }
+
+    @Test
     public void urlParsing() {
         Router.Url u = Router.Url.parse("HTTPS://user:pw@Login.Example.COM:8443/A/b?x=1#frag");
         assertEquals("login.example.com", u.host);

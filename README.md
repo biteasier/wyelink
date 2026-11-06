@@ -40,17 +40,32 @@ A *wye* is a Y-shaped railway junction where one track splits into two. Same ide
 - **Your own rules** beat detection: domains, paths, the app a link came from, text, regular expressions.
 - **Try a link**: paste any URL to see which browser it goes to and why.
 - **Share-sheet fallback**: share a page to "Open in Browser 1" or "Open in Browser 2" when you want it in the other one.
-- **Private by design**: no permissions, no internet, no logging, no backups. History is off by default and never stores tokens.
+- **Private by design**: no permissions, no internet, no logging, no backups. History is off by default and leaves out query strings.
 - **Tiny and native**: pure Java on Android framework APIs, zero libraries, ~34 KB APK. Adaptive and themed (Material You) icon. Light and dark mode.
 
 ## Install
 
-1. Download **`Wyelink-1.1.0.apk`** from [**Releases**](https://github.com/biteasier/wyelink/releases/latest) and open it on your phone (allow "install unknown apps" when asked).
+1. Download **`Wyelink-1.1.1.apk`** from [**Releases**](https://github.com/biteasier/wyelink/releases/latest) and open it on your phone (allow "install unknown apps" when asked).
 2. Open Wyelink and tap **Make default**.
 3. Pick **Browser 1** (sign-ins) and **Browser 2** (everything else).
 4. Optional: add rules, then paste a link into **Try a link** to check where it goes.
 
 Needs Android 8.0 (API 26) or newer. The SHA-256 checksum is listed with each release.
+
+Releases from 1.1.1 on are signed with Wyelink's own key. If you installed 1.1.0, uninstall it first, because Android won't update an app across a key change. To check an APK yourself, run `apksigner verify --print-certs` and compare the certificate's SHA-256 digest:
+
+```text
+989ede8b395b6d0b89bcd97fffa6244b0a6dd5638c270527fbeb95d385585702
+```
+
+## Safest setup
+
+Smart detection reads the link's address, not who sent it, so a fake login page at `fake-bank.example/login` looks like a sign-in and goes to Browser 1. If Browser 1 is where your accounts are logged in, turn detection off and list the sites you trust:
+
+1. Turn off **Detect sign-in & confirmation links**.
+2. Add your sites to **Always Browser 1**, for example `github.com`.
+
+Now only those sites reach Browser 1, and every unknown link opens in Browser 2. The trade-off is that a sign-in link from a site that isn't on your list goes to Browser 2 too. Share it to "Open in Browser 1" when you trust it. Wyelink is not a phishing filter, so still check a page before you type a password.
 
 ## How a link is routed
 
@@ -98,7 +113,7 @@ re:^https://.*\.gov/  regular expression
 - **No permissions at all**, including no `INTERNET`, so the app can't send anything anywhere.
 - No logging, analytics, crash reporting or third-party code.
 - Backups are off: no Google cloud backup and no phone-to-phone transfer.
-- **Recent links** is off by default. When on, it keeps the last 15 links as `scheme://host/path` only, never the part after `?` where tokens live.
+- **Recent links** is off by default. When on, it keeps the last 15 links as `scheme://host/path` only. The part after `?` is never stored, and long token-like path parts are hidden.
 - Links are forwarded as a fresh intent. The caller's component, selector, ClipData and URI-permission grants are dropped.
 - `app:` rules rely on the referrer Android reports, which the sending app can set itself. Don't treat them as a security boundary.
 
@@ -112,7 +127,7 @@ These come from Android and other apps, not from Wyelink:
 - Microsoft's sign-in library (MSAL) only uses browsers on its built-in safe list, and a few apps always open Chrome. Those links never reach Wyelink.
 - Native sign-ins (Google one-tap, passkeys, Credential Manager) don't use a browser at all.
 - Trackers that hide the destination entirely (SendGrid, Mailgun, HubSpot, bit.ly) can only be read by going online. Wyelink stays offline, so they're routed by their visible URL.
-- Keyword detection can't be perfect. A bare `/verify` path such as `example.com/verify/blog` still counts as a sign-in. Use a rule or the share sheet for the rare miss, and [report it](https://github.com/biteasier/wyelink/issues/new?template=wrong_browser.yml).
+- Keyword detection can't tell a real login page from a fake one, so see [Safest setup](#safest-setup). A bare `/verify` path such as `example.com/verify/blog` still counts as a sign-in. Use a rule or the share sheet for the rare miss, and [report it](https://github.com/biteasier/wyelink/issues/new?template=wrong_browser.yml).
 
 ## FAQ
 
@@ -139,7 +154,7 @@ cd wyelink
 ./gradlew testDebugUnitTest assembleRelease
 ```
 
-The APK is written to `app/build/outputs/apk/release/app-release.apk`. Needs JDK 17 and the Android SDK (platform 35). Release builds are signed with your local debug key so they can be sideloaded right away. Add your own `signingConfig` before distributing.
+The APK is written to `app/build/outputs/apk/release/app-release.apk`. Needs JDK 17 and the Android SDK (platform 35). Without the private release key, builds are signed with your local debug key so you can sideload them right away. Those builds can't update an official install. To sign with your own key, point `WYELINK_SIGNING_PROPERTIES` at a properties file with `storeFile`, `storePassword`, `keyAlias` and `keyPassword`.
 
 ### Project layout
 

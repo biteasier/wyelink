@@ -2,6 +2,17 @@
 
 All notable changes to Wyelink. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [1.1.1] - 2026-11-06
+
+### Security
+- **Fixed a lookalike-link bypass.** A link such as `https://evil.example\@github.com/` was read as `github.com`, but browsers open `evil.example`, so it could reach Browser 1. Wyelink now reads backslashes, tabs and newlines the way browsers do. Rules and detection both use the corrected address.
+- Recent links now hide long token-like path parts, because some magic links keep their token in the path.
+
+### Changed
+- **New signing key.** Releases are signed with Wyelink's own key instead of a development key. Uninstall 1.1.0 before installing this version. Certificate SHA-256: `989ede8b395b6d0b89bcd97fffa6244b0a6dd5638c270527fbeb95d385585702`.
+- The README explains the safest setup and that Wyelink is not a phishing filter.
+- CI validates the Gradle wrapper, and Dependabot watches the build tools.
+
 ## [1.1.0] - 2026-10-25
 
 First public release.
@@ -24,5 +35,6 @@ First public release.
 
 Initial private build: two-browser routing, rules (`domain`, `app:`, `has:`, `re:`), keyword sign-in detection, "Try a link" preview, adaptive and themed icon.
 
+[1.1.1]: https://github.com/biteasier/wyelink/releases/tag/v1.1.1
 [1.1.0]: https://github.com/biteasier/wyelink/releases/tag/v1.1.0
 [1.0.0]: https://github.com/biteasier/wyelink/blob/main/CHANGELOG.md#100---2026-10-25

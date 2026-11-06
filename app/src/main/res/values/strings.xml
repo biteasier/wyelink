@@ -40,7 +40,7 @@
 
     <string name="section_recent">Recent links</string>
     <string name="history">Keep recent links</string>
-    <string name="history_desc">Off by default. Stores only the site and path of the last 15 links, never the part after “?” where tokens live. Stays on this phone.</string>
+    <string name="history_desc">Off by default. Stores only the site and path of the last 15 links, never the part after “?”, and long token-like parts are hidden. Stays on this phone.</string>
     <string name="recent_empty">Nothing routed yet. Tip: copy a package name from here into an app: rule.</string>
     <string name="recent_off">History is off.</string>
     <string name="clear">Clear</string>
