@@ -26,7 +26,7 @@ jobs:
       - name: Test, lint and build
         run: ./gradlew testDebugUnitTest lintRelease assembleRelease --console=plain
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: wyelink-apk
           path: app/build/outputs/apk/release/app-release.apk
